@@ -1,46 +1,48 @@
-var express = require('express');
-var path = require('path');
-var favicon = require('serve-favicon');
-var logger = require('morgan');
-var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
+const express = require('express');
+const mongoose = require('mongoose');
+const cookieSession = require('cookie-session');
+const passport = require('passport');
+const bodyParser = require('body-parser');
+const keys = require('./config/keys');
+const path = require('path');
+require('./models/User');
+require('./services/facebookStrategy');
+require('./services/googleStrategy');
+require('./services/twitterStrategy');
+require('./services/githubStrategy');
 
-var index = require('./routes/index');
-var users = require('./routes/users');
+mongoose.connect(keys.mongoURI);
 
-var app = express();
+const app = express();
 
-// view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
-
-// uncomment after placing your favicon in /public
-//app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
-app.use(logger('dev'));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(cookieSession({
+  maxAge: 30 * 24 * 60 * 60 * 1000,
+  keys: [keys.cookieKey],
+}));
 
-app.use('/', index);
-app.use('/users', users);
+app.use(passport.initialize());
+app.use(passport.session());
 
-// catch 404 and forward to error handler
-app.use(function(req, res, next) {
-  var err = new Error('Not Found');
-  err.status = 404;
-  next(err);
-});
+require('./routes/authFacebookRoute')(app);
+require('./routes/authGoogleRoute')(app);
+require('./routes/authTwitterRoute')(app);
+require('./routes/authGithubRoute')(app);
+require('./routes/apiLogoutRoute')(app);
+require('./routes/apiCurrentUserRoute')(app);
 
-// error handler
-app.use(function(err, req, res, next) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
+if (process.env.NODE_ENV === 'production') {
+  // Express will serve up production assets
+  // like our main.js file or main.css file!
+  app.use(express.static('client/build'));
 
-  // render the error page
-  res.status(err.status || 500);
-  res.render('error');
-});
+  // Express will serve up the index.html file
+  // if it doesn't recognize the route
 
-module.exports = app;
+  app.get('*', (req, res) => {
+    res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
+  });
+}
+
+const PORT = process.env.PORT || 5000;
+app.listen(PORT);
