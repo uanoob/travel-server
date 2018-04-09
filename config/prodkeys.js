@@ -11,4 +11,5 @@ module.exports = {
   mongoURI: process.env.MONGO_URI,
   cookieKey: process.env.COOKIE_KEY,
   redirectDomain: process.env.REDIRECT_DOMAIN,
+  allowCrossDomain: process.env.ALLOW_CROSS_DOMAIN,
 };

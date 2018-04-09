@@ -6,6 +6,7 @@ const bodyParser = require('body-parser');
 const path = require('path');
 
 const keys = require('./config/keys');
+const cors = require('./middleware/cors');
 
 require('./models/user');
 require('./models/tour');
@@ -23,6 +24,8 @@ app.use(cookieSession({
   maxAge: 30 * 24 * 60 * 60 * 1000,
   keys: [keys.cookieKey],
 }));
+
+app.use(cors);
 
 app.use(passport.initialize());
 app.use(passport.session());
