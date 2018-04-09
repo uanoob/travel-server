@@ -10,11 +10,13 @@ module.exports = (app) => {
   });
 
   app.get('/api/tours', (req, res) => {
-    // http://localhost:5000/api/tours?limit=5&order=asc
+    // http://localhost:5000/api/tours?skip=2&limit=5&order=asc
+    const skip = parseInt(req.query.skip, 10);
     const limit = parseInt(req.query.limit, 10);
     const { order } = req.query;
     // order = asc[ending] || desc[ending]
     Tour.find()
+      .skip(skip)
       .sort({ _id: order })
       .limit(limit)
       .exec((err, doc) => {
