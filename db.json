@@ -1,0 +1,80 @@
+[
+  {
+    "title": "Paradase",
+    "image": "water_bungalows_in_maldives_resort.jpg",
+    "address": "Maldives",
+    "hotel": "Downtown Resort 5 *",
+    "description":
+      "The upscale rooms and suites offer free Wi-Fi, flat-screen TVs and minibars, plus balconies, sitting areas, and tea and coffeemaking facilities. Upgraded suites have separate living rooms, and some have Jacuzzis. There's room service.Breakfast and parking are free. Amenities include Turkish and international restaurants, outdoor dining and a cafe, plus 7 bars and regular live entertainment. There's a high-end spa, a heated outdoor pool and a gym. Activities such as tennis, badminton, water sports and kids' programs are available.",
+    "duration": "5",
+    "rating": 3.2,
+    "price": "175",
+    "reviews":
+      "I had a Wonderful stay , i had the the suit with a terrace which was a very nice choice after all , great pool , sea view, nice wide balcony, great room service, food was good and diverse , prices are reasonable"
+  },
+  {
+    "title": "Trip In One Side",
+    "image": "beautiful_tropical_resort_pool.jpg",
+    "address": "Antalia",
+    "hotel": "Downtown Resort 4 *",
+    "description":
+      "The upscale rooms and suites offer free Wi-Fi, flat-screen TVs and minibars, plus balconies, sitting areas, and tea and coffeemaking facilities. Upgraded suites have separate living rooms, and some have Jacuzzis. There's room service.Breakfast and parking are free. Amenities include Turkish and international restaurants, outdoor dining and a cafe, plus 7 bars and regular live entertainment. There's a high-end spa, a heated outdoor pool and a gym. Activities such as tennis, badminton, water sports and kids' programs are available.",
+    "duration": "5",
+    "rating": 3.2,
+    "price": "175",
+    "reviews":
+      "I had a Wonderful stay , i had the the suit with a terrace which was a very nice choice after all , great pool , sea view, nice wide balcony, great room service, food was good and diverse , prices are reasonable"
+  },
+  {
+    "title": "One Side success",
+    "image": "luxury_water_bungalows_maldives.jpg",
+    "address": "Maldives",
+    "hotel": "Downtown Resort 5 *",
+    "description":
+      "The upscale rooms and suites offer free Wi-Fi, flat-screen TVs and minibars, plus balconies, sitting areas, and tea and coffeemaking facilities. Upgraded suites have separate living rooms, and some have Jacuzzis. There's room service.Breakfast and parking are free. Amenities include Turkish and international restaurants, outdoor dining and a cafe, plus 7 bars and regular live entertainment. There's a high-end spa, a heated outdoor pool and a gym. Activities such as tennis, badminton, water sports and kids' programs are available.",
+    "duration": "5",
+    "rating": 3.2,
+    "price": "175",
+    "reviews":
+      "I had a Wonderful stay , i had the the suit with a terrace which was a very nice choice after all , great pool , sea view, nice wide balcony, great room service, food was good and diverse , prices are reasonable"
+  },
+  {
+    "title": "Night Party",
+    "image": "ibiza-beach.jpg",
+    "address": "Ibiza",
+    "hotel": "Downtown Resort 5 *",
+    "description":
+      "The upscale rooms and suites offer free Wi-Fi, flat-screen TVs and minibars, plus balconies, sitting areas, and tea and coffeemaking facilities. Upgraded suites have separate living rooms, and some have Jacuzzis. There's room service.Breakfast and parking are free. Amenities include Turkish and international restaurants, outdoor dining and a cafe, plus 7 bars and regular live entertainment. There's a high-end spa, a heated outdoor pool and a gym. Activities such as tennis, badminton, water sports and kids' programs are available.",
+    "duration": "5",
+    "rating": 3.2,
+    "price": "175",
+    "reviews":
+      "I had a Wonderful stay , i had the the suit with a terrace which was a very nice choice after all , great pool , sea view, nice wide balcony, great room service, food was good and diverse , prices are reasonable"
+  },
+  {
+    "title": "Beach Party",
+    "image": "summer_vacation_ideas.jpg",
+    "address": "Ibiza",
+    "hotel": "Downtown Resort 5 *",
+    "description":
+      "The upscale rooms and suites offer free Wi-Fi, flat-screen TVs and minibars, plus balconies, sitting areas, and tea and coffeemaking facilities. Upgraded suites have separate living rooms, and some have Jacuzzis. There's room service.Breakfast and parking are free. Amenities include Turkish and international restaurants, outdoor dining and a cafe, plus 7 bars and regular live entertainment. There's a high-end spa, a heated outdoor pool and a gym. Activities such as tennis, badminton, water sports and kids' programs are available.",
+    "duration": "5",
+    "rating": 3.2,
+    "price": "175",
+    "reviews":
+      "I had a Wonderful stay , i had the the suit with a terrace which was a very nice choice after all , great pool , sea view, nice wide balcony, great room service, food was good and diverse , prices are reasonable"
+  },
+  {
+    "title": "Tropical Paradase",
+    "image": "tropical_paradise_4.jpg",
+    "address": "Maldives",
+    "hotel": "Downtown Resort 5 *",
+    "description":
+      "The upscale rooms and suites offer free Wi-Fi, flat-screen TVs and minibars, plus balconies, sitting areas, and tea and coffeemaking facilities. Upgraded suites have separate living rooms, and some have Jacuzzis. There's room service.Breakfast and parking are free. Amenities include Turkish and international restaurants, outdoor dining and a cafe, plus 7 bars and regular live entertainment. There's a high-end spa, a heated outdoor pool and a gym. Activities such as tennis, badminton, water sports and kids' programs are available.",
+    "duration": "5",
+    "rating": 3.2,
+    "price": "175",
+    "reviews":
+      "I had a Wonderful stay , i had the the suit with a terrace which was a very nice choice after all , great pool , sea view, nice wide balcony, great room service, food was good and diverse , prices are reasonable"
+  }
+]

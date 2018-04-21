@@ -10,5 +10,4 @@ module.exports = {
   twitterConsumerSecret: process.env.TWITTER_CONSUMER_SECRET,
   mongoURI: process.env.MONGO_URI,
   cookieKey: process.env.COOKIE_KEY,
-  redirectDomain: process.env.REDIRECT_DOMAIN,
 };
