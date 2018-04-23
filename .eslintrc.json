@@ -12,6 +12,7 @@
     "func-names": ["error", "never"],
     "consistent-return": 0,
     "react/prop-types": 0,
-    "prefer-destructuring": 0
+    "prefer-destructuring": 0,
+    "no-unused-vars": ["error", { "argsIgnorePattern": "next" }]
   }
 }
