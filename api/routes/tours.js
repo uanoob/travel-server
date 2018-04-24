@@ -1,5 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const fs = require('fs');
 
 const router = express.Router();
 const multer = require('multer');
@@ -31,6 +32,18 @@ const upload = multer({
   },
   fileFilter,
 });
+
+const fileDeleteHandler = (filePath) => {
+  fs.access(filePath, (error) => {
+    if (!error) {
+      fs.unlink(filePath, (err) => {
+        console.log(err);
+      });
+    } else {
+      console.log(error);
+    }
+  });
+};
 
 router.get('/:id', (req, res, next) => {
   const id = req.params.id;
@@ -75,11 +88,18 @@ router.post('/', upload.single('tourImage'), (req, res, next) => {
   });
 });
 
-router.post('/:id', (req, res, next) => {
+router.post('/:id', upload.single('tourImage'), (req, res, next) => {
   console.log('req.body: ', req.body);
+  console.log(req.file);
+  if (req.file) {
+    req.body.tourImage = req.file.path;
+  }
   const id = req.params.id;
-  Tour.findByIdAndUpdate(id, req.body, { new: true }, (err, doc) => {
+  Tour.findByIdAndUpdate(id, req.body, { new: false }, (err, doc) => {
     if (err) return res.status(400).send(err);
+    if (req.file) {
+      fileDeleteHandler(doc.tourImage);
+    }
     res.json({
       success: true,
       doc,
@@ -89,7 +109,10 @@ router.post('/:id', (req, res, next) => {
 
 router.delete('/:id', (req, res, next) => {
   const id = req.params.id;
-  Tour.findByIdAndRemove(id, (err) => {
+  Tour.findByIdAndRemove(id, (err, doc) => {
+    if (doc) {
+      fileDeleteHandler(doc.tourImage);
+    }
     if (err) return res.json({ success: false });
     res.json(true);
   });
