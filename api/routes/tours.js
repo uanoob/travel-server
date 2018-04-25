@@ -72,12 +72,15 @@ router.get('/', (req, res, next) => {
 router.post('/', upload.single('tourImage'), (req, res, next) => {
   console.log(req.file);
   console.log('req.body: ', req.body);
+  if (req.file) {
+    req.body.tourImage = req.file.path;
+  }
   const tour = new Tour({
     _id: new mongoose.Types.ObjectId(),
     title: req.body.title,
     description: req.body.description,
     price: req.body.price,
-    tourImage: req.file.path,
+    tourImage: req.body.tourImage || 'no image',
   });
   tour.save((err, doc) => {
     if (err) return res.json({ success: false });
