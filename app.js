@@ -22,7 +22,6 @@ app.use(bodyParser.json());
 
 app.use(cors());
 
-// Routes which should handle requests
 app.use('/tours', toursRoutes);
 app.use('/users', usersRoutes);
 
