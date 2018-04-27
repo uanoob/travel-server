@@ -1,47 +1,69 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const fs = require('fs');
+const multer = require('multer');
+const aws = require('aws-sdk');
+const multerS3 = require('multer-s3');
+const uuid = require('uuid/v1');
 
 const router = express.Router();
-const multer = require('multer');
 
 const Tour = require('../models/tour');
+const keys = require('../../config/keys');
 
-const storage = multer.diskStorage({
-  destination(req, file, cb) {
-    cb(null, './public/images/');
-  },
-  filename(req, file, cb) {
-    cb(null, new Date().toISOString() + file.originalname);
-  },
+// const storage = multer.diskStorage({
+//   destination(req, file, cb) {
+//     cb(null, './public/images/');
+//   },
+//   filename(req, file, cb) {
+//     cb(null, new Date().toISOString() + file.originalname);
+//   },
+// });
+
+// const fileFilter = (req, file, cb) => {
+//   // reject a file
+//   if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png') {
+//     cb(null, true);
+//   } else {
+//     cb(null, false);
+//   }
+// };
+
+aws.config.update({
+  accessKeyId: keys.aws_access_key_id,
+  secretAccessKey: keys.aws_secret_access_key,
+  region: keys.aws_region,
 });
 
-const fileFilter = (req, file, cb) => {
-  // reject a file
-  if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png') {
-    cb(null, true);
-  } else {
-    cb(null, false);
-  }
-};
+const s3 = new aws.S3();
 
 const upload = multer({
-  storage,
-  limits: {
-    fileSize: 1024 * 1024 * 1,
-  },
-  fileFilter,
+  storage: multerS3({
+    s3,
+    acl: 'public-read',
+    bucket: `${keys.s3_bucket}/images`,
+    key(req, file, cb) {
+      cb(null, `${uuid()}_${file.originalname}`);
+    },
+  }),
 });
 
-const fileDeleteHandler = (filePath) => {
-  fs.access(filePath, (error) => {
-    if (!error) {
-      fs.unlink(filePath, (err) => {
-        console.log(err);
-      });
-    } else {
-      console.log(error);
-    }
+// const upload = multer({
+//   storage,
+//   limits: {
+//     fileSize: 1024 * 1024 * 1,
+//   },
+//   fileFilter,
+// });
+
+const fileDeleteHandler = (key) => {
+  const params = {
+    Bucket: `${keys.s3_bucket}/images`,
+    Key: key,
+  };
+  s3.deleteObject(params, (err, data) => {
+    if (err) console.log(err, err.stack);
+    // an error occurred
+    else console.log('file deleted! ', data); // successful response
   });
 };
 
@@ -69,18 +91,21 @@ router.get('/', (req, res, next) => {
     });
 });
 
-router.post('/', upload.single('tourImage'), (req, res, next) => {
-  console.log(req.file);
+router.post('/', upload.single('file'), (req, res, next) => {
   console.log('req.body: ', req.body);
+  console.log('req.file: ', req.file);
   if (req.file) {
-    req.body.tourImage = req.file.path;
+    req.body.image = {
+      key: req.file.key || 'no image',
+      path: req.file.location,
+    };
   }
   const tour = new Tour({
     _id: new mongoose.Types.ObjectId(),
     title: req.body.title,
     description: req.body.description,
     price: req.body.price,
-    tourImage: req.body.tourImage || 'no image',
+    image: req.body.image,
   });
   tour.save((err, doc) => {
     if (err) return res.json({ success: false });
@@ -91,17 +116,20 @@ router.post('/', upload.single('tourImage'), (req, res, next) => {
   });
 });
 
-router.post('/:id', upload.single('tourImage'), (req, res, next) => {
+router.post('/:id', upload.single('file'), (req, res, next) => {
   console.log('req.body: ', req.body);
-  console.log(req.file);
+  console.log('req.file: ', req.file);
   if (req.file) {
-    req.body.tourImage = req.file.path;
+    req.body.image = {
+      key: req.file.key || 'no image',
+      path: req.file.location,
+    };
   }
   const id = req.params.id;
   Tour.findByIdAndUpdate(id, req.body, { new: false }, (err, doc) => {
     if (err) return res.status(400).send(err);
     if (req.file) {
-      fileDeleteHandler(doc.tourImage);
+      fileDeleteHandler(doc.image.key);
     }
     res.json({
       success: true,
@@ -114,7 +142,7 @@ router.delete('/:id', (req, res, next) => {
   const id = req.params.id;
   Tour.findByIdAndRemove(id, (err, doc) => {
     if (doc) {
-      fileDeleteHandler(doc.tourImage);
+      fileDeleteHandler(doc.image.key);
     }
     if (err) return res.json({ success: false });
     res.json(true);
