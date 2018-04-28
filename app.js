@@ -1,4 +1,5 @@
 const express = require('express');
+const cookieParser = require('cookie-parser');
 const cors = require('cors');
 
 const app = express();
@@ -6,12 +7,12 @@ const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 
-const keys = require('./config/keys');
+const config = require('./config');
 
-const toursRoutes = require('./api/routes/tours');
-const usersRoutes = require('./api/routes/users');
+const tours = require('./api/routes/tours');
+const users = require('./api/routes/users');
 
-mongoose.connect(keys.mongoURI);
+mongoose.connect(config.mongoURI);
 mongoose.Promise = global.Promise;
 
 app.use(morgan('dev'));
@@ -19,11 +20,12 @@ app.use(morgan('dev'));
 app.use('/public', express.static('public'));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+app.use(cookieParser());
 
 app.use(cors());
 
-app.use('/tours', toursRoutes);
-app.use('/users', usersRoutes);
+app.use('/tours', tours);
+app.use('/users', users);
 
 app.use((req, res, next) => {
   const error = new Error('Not found');

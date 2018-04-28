@@ -8,7 +8,7 @@ const uuid = require('uuid/v1');
 const router = express.Router();
 
 const Tour = require('../models/tour');
-const keys = require('../../config/keys');
+const config = require('../../config');
 
 // const storage = multer.diskStorage({
 //   destination(req, file, cb) {
@@ -29,9 +29,9 @@ const keys = require('../../config/keys');
 // };
 
 aws.config.update({
-  accessKeyId: keys.aws_access_key_id,
-  secretAccessKey: keys.aws_secret_access_key,
-  region: keys.aws_region,
+  accessKeyId: config.aws_access_key_id,
+  secretAccessKey: config.aws_secret_access_key,
+  region: config.aws_region,
 });
 
 const s3 = new aws.S3();
@@ -40,7 +40,7 @@ const upload = multer({
   storage: multerS3({
     s3,
     acl: 'public-read',
-    bucket: `${keys.s3_bucket}/images`,
+    bucket: `${config.s3_bucket}/images`,
     key(req, file, cb) {
       cb(null, `${uuid()}_${file.originalname}`);
     },
@@ -57,7 +57,7 @@ const upload = multer({
 
 const fileDeleteHandler = (key) => {
   const params = {
-    Bucket: `${keys.s3_bucket}/images`,
+    Bucket: `${config.s3_bucket}/images`,
     Key: key,
   };
   s3.deleteObject(params, (err, data) => {
