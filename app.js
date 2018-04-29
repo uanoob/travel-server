@@ -9,9 +9,6 @@ const mongoose = require('mongoose');
 
 const config = require('./config');
 
-const tours = require('./api/routes/tours');
-const users = require('./api/routes/users');
-
 mongoose.connect(config.mongoURI);
 mongoose.Promise = global.Promise;
 
@@ -24,8 +21,8 @@ app.use(cookieParser());
 
 app.use(cors());
 
-app.use('/tours', tours);
-app.use('/users', users);
+require('./api/routes/tours')(app);
+require('./api/routes/users')(app);
 
 app.use((req, res, next) => {
   const error = new Error('Not found');
