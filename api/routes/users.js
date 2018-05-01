@@ -51,7 +51,7 @@ module.exports = (app) => {
         if (!isMatch) return res.json({ isAuth: false, message: 'Wrong password' });
         user.generateToken((e, u) => {
           if (e) return res.status(400).send(e);
-          res.cookie('auth', user.token).json({
+          res.cookie('auth', u.token).json({
             isAuth: true,
             id: u._id,
             email: u.email,

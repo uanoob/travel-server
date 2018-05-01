@@ -15,4 +15,5 @@ module.exports = {
   aws_secret_access_key: process.env.AWS_SECRET_ACCESS_KEY,
   s3_bucket: process.env.S3_BUCKET,
   aws_region: process.env.AWS_REGION,
+  corsOrigin: process.env.CORS_ORIGIN,
 };
